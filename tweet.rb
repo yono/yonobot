@@ -1,10 +1,6 @@
 #!/usr/bin/env ruby
 # -*- coding:utf-8 -*-
 
-require 'csv'
-require 'uri'
-require 'cgi'
-require 'natto'
 require 'twitter'
 require 'mongo'
 require 'dotenv'

@@ -5,7 +5,6 @@ require 'csv'
 require 'uri'
 require 'cgi'
 require 'natto'
-require 'twitter'
 require 'mongo'
 
 NONWORD = "\n"
