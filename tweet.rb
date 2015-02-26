@@ -10,7 +10,11 @@ NONWORD = "\n"
 START_SENTENCE = [NONWORD, NONWORD]
 END_SENTENCE = NONWORD
 
-connection = Mongo::Connection.new
+if ENV['MONGOLAB_URI']
+  connection = Mongo::Connection.from_uri(ENV['MONGOLAB_URI'])
+else
+  connection = Mongo::Connection.new
+end
 db = connection.db('twitter')
 coll = db.collection('malcovchains')
 
