@@ -11,11 +11,14 @@ START_SENTENCE = [NONWORD, NONWORD]
 END_SENTENCE = NONWORD
 
 if ENV['MONGOLAB_URI']
-  connection = Mongo::Connection.from_uri(ENV['MONGOLAB_URI'])
+  uri = ENV['MONGOLAB_URI']
+  connection = Mongo::Connection.from_uri(uri)
+  db_name = uri[%r{/([^/\?]+)(\?|$)}, 1]
+  db = connection.db(db_name)
 else
   connection = Mongo::Connection.new
+  db = connection.db('twitter')
 end
-db = connection.db('twitter')
 coll = db.collection('malcovchains')
 
 result_tweet = []
