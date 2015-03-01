@@ -11,7 +11,13 @@ NONWORD = "\n"
 #START_SENTENCE = [NONWORD, NONWORD]
 #END_SENTENCE = NONWORD
 
-nm = Natto::MeCab.new(userdic: '../custom.dic')
+dicts = Dir.glob("dic/*.dic").join(",")
+
+if dicts
+  nm = Natto::MeCab.new(userdic: dicts)
+else
+  nm = Natto::MeCab.new
+end
 
 table = CSV.table('tweets.csv', headers: true, header_converters: :symbol)
 
