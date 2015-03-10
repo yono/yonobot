@@ -37,3 +37,7 @@ Download tweets.csv from https://twitter.com and place it to project root direct
 ```bash
 $ bundle exec bin/yonobot analysis
 ```
+
+## LICENSE
+
+MIT License
