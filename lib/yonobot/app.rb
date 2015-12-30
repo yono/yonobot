@@ -2,11 +2,13 @@ require 'thor'
 
 module Yonobot
   class App < Thor
-    desc 'tweet', 'Tweet a sentence.'
+    desc 'tweet', 'Tweet a sentence. (mute from 0:00 to 6:00)'
     def tweet
-      marcov = MarkovChain.new
-      tweet = Tweet.new
-      tweet.tweet(marcov.sentence)
+      if Time.now.hour > 6
+        marcov = MarkovChain.new
+        tweet = Tweet.new
+        tweet.tweet(marcov.sentence)
+      end
     end
 
     desc 'analysis', 'Analysis tweets.'
