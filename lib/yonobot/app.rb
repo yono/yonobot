@@ -4,11 +4,11 @@ module Yonobot
   class App < Thor
     desc 'tweet', 'Tweet a sentence. (mute from 0:00 to 6:00)'
     def tweet
-      if Time.now.hour > 6
-        marcov = MarkovChain.new
-        tweet = Tweet.new
-        tweet.tweet(marcov.sentence)
-      end
+      return if sleeping?
+
+      marcov = MarkovChain.new
+      tweet = Tweet.new
+      tweet.tweet(marcov.sentence)
     end
 
     desc 'analysis', 'Analysis tweets.'
@@ -20,6 +20,8 @@ module Yonobot
 
     desc 'replies', 'Send replies'
     def replies
+      return if sleeping?
+
       tweet = Tweet.new
       current = Time.now
       marcov = MarkovChain.new
@@ -30,6 +32,12 @@ module Yonobot
         sentence = marcov.sentence
         tweet.reply("@#{mention.user.screen_name} #{sentence}", in_reply_to_status: mention)
       end
+    end
+
+    private
+
+    def sleeping?
+      Time.now.hour < 7
     end
   end
 end
