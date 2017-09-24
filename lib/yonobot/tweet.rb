@@ -16,5 +16,13 @@ module Yonobot
     def tweet(sentence)
       @client.update(sentence)
     end
+
+    def reply(sentence, *args)
+      @client.update(sentence, *args)
+    end
+
+    def mentions_timeline
+      @client.mentions_timeline
+    end
   end
 end

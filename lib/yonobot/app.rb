@@ -17,5 +17,19 @@ module Yonobot
       analyzer = Analyzer.new
       analyzer.store_csv(csv)
     end
+
+    desc 'replies', 'Send replies'
+    def replies
+      tweet = Tweet.new
+      current = Time.now
+      marcov = MarkovChain.new
+      tweet.mentions_timeline.each do |mention|
+        # get only 5 minites
+        next if mention.created_at + (60 * 5) < current
+
+        sentence = marcov.sentence
+        tweet.reply("@#{mention.user.screen_name} #{sentence}", in_reply_to_status: mention)
+      end
+    end
   end
 end
