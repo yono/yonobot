@@ -26,8 +26,8 @@ module Yonobot
       current = Time.now
       marcov = MarkovChain.new
       tweet.mentions_timeline.each do |mention|
-        # get only 5 minites
-        next if mention.created_at + (60 * 5) < current
+        # get only 10 minites
+        next if mention.created_at + (60 * 10) < current
 
         sentence = marcov.sentence
         tweet.reply("@#{mention.user.screen_name} #{sentence}", in_reply_to_status: mention)
