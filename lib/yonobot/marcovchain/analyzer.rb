@@ -4,7 +4,7 @@ require 'cgi'
 
 module Yonobot::MarkovChain
   class Analyzer < Base
-    
+
     def store_csv(filename)
       table = CSV.table('tweets.csv', headers: true, header_converters: :symbol)
       count = 0
@@ -21,8 +21,8 @@ module Yonobot::MarkovChain
         if valid
           text = normalize(text)
           surfaces = [NONWORD, NONWORD]
-          parser.nm.parse(text) do |n|
-            surfaces << n.surface
+          parser.parse(text) do |node|
+            surfaces << node.surface
           end
           surfaces << NONWORD
 
