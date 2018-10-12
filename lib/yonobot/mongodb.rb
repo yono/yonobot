@@ -5,21 +5,30 @@ Dotenv.load
 module Yonobot
   class MongoDB
     def initialize
-      db = nil
-      if ENV['MONGOLAB_URI']
-        uri = ENV['MONGOLAB_URI']
+      db = if uri
         connection = Mongo::Connection.from_uri(uri)
-        db_name = uri[%r{/([^/\?]+)(\?|$)}, 1]
-        db = connection.db(db_name)
+        connection.db(dbname_from_uri(uri))
       else
         connection = Mongo::Connection.new
-        db = connection.db('twitter')
+        connection.db('twitter')
       end
-      @coll = db.collection('markovchains')
+      @collection = db.collection('markovchains')
     end
 
-    def coll
-      @coll
+    def collection
+      @collection
+    end
+
+    private
+
+    def dbname_from_uri(uri)
+      # Extract from mongodb URI Schema
+      # Schmea => mongodb://USERNAME:PASSWORD@HOSTNAE:PORT/DBNAME
+      uri[%r{/([^/\?]+)(\?|$)}, 1]
+    end
+
+    def uri
+      ENV['MONGOLAB_URI']
     end
   end
 end

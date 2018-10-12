@@ -11,7 +11,7 @@ module Yonobot
     def initialize
       @parser = Parser.new
       mongo = MongoDB.new
-      @coll = mongo.coll
+      @collection = mongo.collection
     end
 
     def store_csv(filename)
@@ -48,7 +48,7 @@ module Yonobot
 
       h.each do |key, value|
         doc = {prefix: key, suffix: value}
-        @coll.insert(doc)
+        @collection.insert(doc)
       end
     end
 

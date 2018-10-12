@@ -6,14 +6,14 @@ module Yonobot
 
     def initialize
       mongo = MongoDB.new
-      @coll = mongo.coll
+      @collection = mongo.collection
     end
 
     def sentence
       words = []
       prefix = START_SENTENCE
       loop do
-        _suffix = @coll.find_one(prefix: prefix)
+        _suffix = @collection.find_one(prefix: prefix)
         suffix = _suffix["suffix"][rand(_suffix["suffix"].count)]
         break if suffix == END_SENTENCE
 
