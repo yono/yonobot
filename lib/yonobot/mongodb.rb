@@ -15,7 +15,6 @@ module Yonobot
         connection = Mongo::Connection.new
         db = connection.db('twitter')
       end
-      puts db
       @coll = db.collection('markovchains')
     end
 
