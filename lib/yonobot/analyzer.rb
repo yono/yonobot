@@ -68,17 +68,26 @@ module Yonobot
     end
 
     def normalize(text)
-      # twitterサードパーティクライアントがつける記号
-      text = text.gsub(/\*tp/, "")
-      text = text.gsub(/\*p/, "")
-      text = text.gsub(/\*Tw\*/, "")
-      # @username は消す
-      text = text.gsub(/@[^\s]+/, "")
-      # #hashtag は消す
-      text = text.gsub(/#[^\s]+/, "")
+      text = remove_twitter_client_keywords(text)
+      text = remove_twitter_username(text)
+      text = remove_twitter_hashtag(text)
       text = text.gsub(/\n/, "")
       text = CGI.unescapeHTML(text)
       text = text.strip
+    end
+
+    def remove_twitter_client_keywords(text)
+      text = text.gsub(/\*tp/, "")
+      text = text.gsub(/\*p/, "")
+      text = text.gsub(/\*Tw\*/, "")
+    end
+
+    def remove_twitter_username(text)
+      text.gsub(/@[^\s]+/, "")
+    end
+
+    def remove_twitter_hashtag(text)
+      text.gsub(/#[^\s]+/, "")
     end
   end
 end
