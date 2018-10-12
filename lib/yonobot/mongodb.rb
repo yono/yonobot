@@ -4,7 +4,9 @@ Dotenv.load
 
 module Yonobot
   class MongoDB
-    def initialize
+    def collection
+      return @collection if defined?(@collection)
+
       db = if uri
         connection = Mongo::Connection.from_uri(uri)
         connection.db(dbname_from_uri(uri))
@@ -13,10 +15,6 @@ module Yonobot
         connection.db('twitter')
       end
       @collection = db.collection('markovchains')
-    end
-
-    def collection
-      @collection
     end
 
     private
