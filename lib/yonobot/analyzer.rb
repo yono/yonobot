@@ -66,6 +66,7 @@ module Yonobot
     end
 
     def normalize(text)
+      # twitterサードパーティクライアントがつける記号
       text = text.gsub(/\*tp/, "")
       text = text.gsub(/\*p/, "")
       text = text.gsub(/\*Tw\*/, "")
