@@ -1,12 +1,5 @@
-module Yonobot
-  class MarkovChain
-    NONWORD = "\n"
-    START_SENTENCE = [NONWORD, NONWORD]
-    END_SENTENCE = NONWORD
-
-    def initialize
-    end
-
+module Yonobot::MarkovChain
+  class Creator < Base
     def sentence
       words = []
       prefix = START_SENTENCE
@@ -26,15 +19,6 @@ module Yonobot
         prefix << suffix
       end
       words.join("")
-    end
-
-    private
-
-    def collection
-      return @collection if defined?(@collection)
-
-      mongo = MongoDB.new
-      @collection = mongo.collection
     end
   end
 end

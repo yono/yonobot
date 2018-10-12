@@ -2,18 +2,9 @@ require 'csv'
 require 'uri'
 require 'cgi'
 
-module Yonobot
-  class Analyzer
-    NONWORD = "\n"
-    START_SENTENCE = [NONWORD, NONWORD]
-    END_SENTENCE = NONWORD
-
-    def initialize
-      @parser = Parser.new
-      mongo = MongoDB.new
-      @collection = mongo.collection
-    end
-
+module Yonobot::MarkovChain
+  class Analyzer < Base
+    
     def store_csv(filename)
       table = CSV.table('tweets.csv', headers: true, header_converters: :symbol)
       count = 0
@@ -30,7 +21,7 @@ module Yonobot
         if valid
           text = normalize(text)
           surfaces = [NONWORD, NONWORD]
-          @parser.nm.parse(text) do |n|
+          parser.nm.parse(text) do |n|
             surfaces << n.surface
           end
           surfaces << NONWORD
@@ -88,6 +79,10 @@ module Yonobot
 
     def remove_twitter_hashtag(text)
       text.gsub(/#[^\s]+/, "")
+    end
+
+    def parser
+      @parser ||= Parser.new
     end
   end
 end
