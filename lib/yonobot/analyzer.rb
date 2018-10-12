@@ -52,6 +52,8 @@ module Yonobot
       end
     end
 
+    private
+
     def valid?(text)
       # URL 入ってたらダメ
       have_url = URI.regexp =~ text
