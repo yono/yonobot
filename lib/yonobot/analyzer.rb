@@ -22,12 +22,12 @@ module Yonobot
         text = row[:text]
         next if text.is_a?(Fixnum)
 
-        is_valid = valid?(text)
-        count = count + 1 if is_valid
+        valid = valid?(text)
+        count += 1 if valid
 
         puts "#{count}/#{table.size}"
-        puts "#{is_valid} #{text}"
-        if is_valid
+        puts "#{valid} #{text}"
+        if valid
           text = normalize(text)
           surfaces = [NONWORD, NONWORD]
           @parser.nm.parse(text) do |n|
