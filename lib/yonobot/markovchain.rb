@@ -5,15 +5,13 @@ module Yonobot
     END_SENTENCE = NONWORD
 
     def initialize
-      mongo = MongoDB.new
-      @collection = mongo.collection
     end
 
     def sentence
       words = []
       prefix = START_SENTENCE
       loop do
-        _suffix = @collection.find_one(prefix: prefix)
+        _suffix = collection.find_one(prefix: prefix)
         suffix = _suffix["suffix"][rand(_suffix["suffix"].count)]
         break if suffix == END_SENTENCE
 
@@ -23,6 +21,15 @@ module Yonobot
         prefix << suffix
       end
       words.join("")
+    end
+
+    private
+
+    def collection
+      return @collection if defined?(@collection)
+
+      mongo = MongoDB.new
+      @collection = mongo.collection
     end
   end
 end
