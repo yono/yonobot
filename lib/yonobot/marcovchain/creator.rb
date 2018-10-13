@@ -4,10 +4,10 @@ module Yonobot::MarkovChain
       words = []
       prefix = START_SENTENCE
       loop do
-        _suffix = collection.find_one(prefix: prefix)
+        suffixes = collection.find_one(prefix: prefix)
 
         # _suffix からランダムに1つ選ぶ
-        suffix = _suffix["suffix"][rand(_suffix["suffix"].count)]
+        suffix = suffixes["suffix"][rand(suffixes["suffix"].count)]
 
         # 文末まで来たら終わり
         break if suffix == END_SENTENCE
