@@ -15,8 +15,7 @@ module Yonobot::MarkovChain
         words << suffix
 
         # prefixを1つずらす
-        prefix.delete_at(0)
-        prefix << suffix
+        prefix = [prefix[1], suffix]
       end
       words.join("")
     end
