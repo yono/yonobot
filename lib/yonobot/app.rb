@@ -6,7 +6,7 @@ module Yonobot
     def tweet
       return if sleeping?
 
-      tweet.tweet(sentence)
+      twitter.tweet(sentence)
     end
 
     desc 'analysis', 'Analysis tweets.'
@@ -20,11 +20,11 @@ module Yonobot
       return if sleeping?
 
       current = Time.now
-      tweet.mentions_timeline.each do |mention|
+      twitter.mentions_timeline.each do |mention|
         # get only 10 minites
         next if mention.created_at + (60 * 10) < current
 
-        tweet.reply("@#{mention.user.screen_name} #{sentence}", in_reply_to_status: mention)
+        twitter.reply("@#{mention.user.screen_name} #{sentence}", in_reply_to_status: mention)
       end
     end
 
@@ -35,15 +35,15 @@ module Yonobot
     end
 
     def marcov
-      @marcov ||= MarcovChain.new
+      @marcov ||= MarkovChain::Creator.new
     end
 
     def sentence
       marcov.sentence
     end
 
-    def tweet
-      @tweet ||= Tweet.new
+    def twitter
+      @twitter ||= Twitter.new
     end
 
     def analyzer

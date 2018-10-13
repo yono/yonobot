@@ -3,7 +3,7 @@ require 'dotenv'
 Dotenv.load
 
 module Yonobot
-  class Tweet
+  class Twitter
 
     def tweet(sentence)
       client.update(sentence)
@@ -20,7 +20,7 @@ module Yonobot
     private
 
     def client
-      @client ||= Twitter::REST::Client.new do |config|
+      @client ||= ::Twitter::REST::Client.new do |config|
         config.consumer_key        = ENV['CONSUMER_KEY']
         config.consumer_secret     = ENV['CONSUMER_SECRET']
         config.access_token        = ENV['ACCESS_TOKEN']

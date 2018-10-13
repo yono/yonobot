@@ -9,8 +9,11 @@ module Yonobot::MarkovChain
     def collection
       return @collection if defined?(@collection)
 
-      mongo = MongoDB.new
       @collection = mongo.collection
+    end
+
+    def mongo
+      @mongo ||= Yonobot::MongoDB.new
     end
   end
 end

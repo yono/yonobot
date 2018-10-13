@@ -7,14 +7,12 @@ module Yonobot
     def collection
       return @collection if defined?(@collection)
 
-      db = if uri
-        connection = Mongo::Connection.from_uri(uri)
-        connection.db(dbname_from_uri(uri))
+      client = if uri
+        client = Mongo::Client.new(uri)
       else
-        connection = Mongo::Connection.new
-        connection.db('twitter')
+        client = Mongo::Client.new('127.0.0.1', database: 'twitter')
       end
-      @collection = db.collection('markovchains')
+      @collection = client[:markovchains]
     end
 
     private

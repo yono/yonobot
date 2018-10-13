@@ -4,17 +4,16 @@ module Yonobot::MarkovChain
       words = []
       prefix = START_SENTENCE
       loop do
-        suffixes = collection.find_one(prefix: prefix)
-
-        # _suffix からランダムに1つ選ぶ
-        suffix = suffixes["suffix"][rand(suffixes["suffix"].count)]
+        nodes = collection.find(prefix: prefix)
+        node = nodes.first
+        break unless node
+        suffix = node["suffix"].sample
 
         # 文末まで来たら終わり
         break if suffix == END_SENTENCE
 
         words << suffix
 
-        # prefixを1つずらす
         prefix = [prefix[1], suffix]
       end
       words.join("")
