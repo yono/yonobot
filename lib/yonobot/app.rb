@@ -6,15 +6,12 @@ module Yonobot
     def tweet
       return if sleeping?
 
-      marcov = MarkovChain.new
-      tweet = Tweet.new
-      tweet.tweet(marcov.sentence)
+      twitter.tweet(sentence)
     end
 
     desc 'analysis', 'Analysis tweets.'
     def analysis
       csv = 'tweets.csv'
-      analyzer = Analyzer.new
       analyzer.store_csv(csv)
     end
 
@@ -22,15 +19,12 @@ module Yonobot
     def replies
       return if sleeping?
 
-      tweet = Tweet.new
       current = Time.now
-      marcov = MarkovChain.new
-      tweet.mentions_timeline.each do |mention|
+      twitter.mentions_timeline.each do |mention|
         # get only 10 minites
         next if mention.created_at + (60 * 10) < current
 
-        sentence = marcov.sentence
-        tweet.reply("@#{mention.user.screen_name} #{sentence}", in_reply_to_status: mention)
+        twitter.reply("@#{mention.user.screen_name} #{sentence}", in_reply_to_status: mention)
       end
     end
 
@@ -38,6 +32,22 @@ module Yonobot
 
     def sleeping?
       Time.now.hour < 7
+    end
+
+    def marcov
+      @marcov ||= MarkovChain::Creator.new
+    end
+
+    def sentence
+      marcov.sentence
+    end
+
+    def twitter
+      @twitter ||= Twitter.new
+    end
+
+    def analyzer
+      @analyzer ||= Analyzer.new
     end
   end
 end

@@ -2,17 +2,8 @@ require 'csv'
 require 'uri'
 require 'cgi'
 
-module Yonobot
-  class Analyzer
-    NONWORD = "\n"
-    START_SENTENCE = [NONWORD, NONWORD]
-    END_SENTENCE = NONWORD
-
-    def initialize
-      @parser = Parser.new
-      mongo = MongoDB.new
-      @coll = mongo.coll
-    end
+module Yonobot::MarkovChain
+  class Analyzer < Base
 
     def store_csv(filename)
       table = CSV.table('tweets.csv', headers: true, header_converters: :symbol)
@@ -22,16 +13,16 @@ module Yonobot
         text = row[:text]
         next if text.is_a?(Fixnum)
 
-        is_valid = valid?(text)
-        count = count + 1 if is_valid
+        valid = valid?(text)
+        count += 1 if valid
 
         puts "#{count}/#{table.size}"
-        puts "#{is_valid} #{text}"
-        if is_valid
+        puts "#{valid} #{text}"
+        if valid
           text = normalize(text)
           surfaces = [NONWORD, NONWORD]
-          @parser.nm.parse(text) do |n|
-            surfaces << n.surface
+          parser.parse(text) do |node|
+            surfaces << node.surface
           end
           surfaces << NONWORD
 
@@ -48,9 +39,11 @@ module Yonobot
 
       h.each do |key, value|
         doc = {prefix: key, suffix: value}
-        @coll.insert(doc)
+        @collection.insert(doc)
       end
     end
+
+    private
 
     def valid?(text)
       # URL 入ってたらダメ
@@ -66,16 +59,30 @@ module Yonobot
     end
 
     def normalize(text)
-      text = text.gsub(/\*tp/, "")
-      text = text.gsub(/\*p/, "")
-      text = text.gsub(/\*Tw\*/, "")
-      # @username は消す
-      text = text.gsub(/@[^\s]+/, "")
-      # #hashtag は消す
-      text = text.gsub(/#[^\s]+/, "")
+      text = remove_twitter_client_keywords(text)
+      text = remove_twitter_username(text)
+      text = remove_twitter_hashtag(text)
       text = text.gsub(/\n/, "")
       text = CGI.unescapeHTML(text)
       text = text.strip
+    end
+
+    def remove_twitter_client_keywords(text)
+      text = text.gsub(/\*tp/, "")
+      text = text.gsub(/\*p/, "")
+      text = text.gsub(/\*Tw\*/, "")
+    end
+
+    def remove_twitter_username(text)
+      text.gsub(/@[^\s]+/, "")
+    end
+
+    def remove_twitter_hashtag(text)
+      text.gsub(/#[^\s]+/, "")
+    end
+
+    def parser
+      @parser ||= Parser.new
     end
   end
 end
