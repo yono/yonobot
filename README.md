@@ -2,6 +2,8 @@
 
 Tweet with markovchain algorism.
 
+[![CircleCI](https://circleci.com/gh/yono/yonobot.svg?style=svg)](https://circleci.com/gh/yono/yonobot)
+
 ## Requirements
 
 * Ruby
