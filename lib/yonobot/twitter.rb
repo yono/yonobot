@@ -4,6 +4,9 @@ Dotenv.load
 
 module Yonobot
   class Twitter
+    def initialize(twitter_client_class=::Twitter::REST::Client)
+      @twitter_client_class = twitter_client_class
+    end
 
     def tweet(sentence)
       client.update(sentence)
@@ -19,8 +22,12 @@ module Yonobot
 
     private
 
+    def twitter_client_class
+      @twitter_client_class
+    end
+
     def client
-      @client ||= ::Twitter::REST::Client.new do |config|
+      @client ||= twitter_client_class.new do |config|
         config.consumer_key        = ENV['CONSUMER_KEY']
         config.consumer_secret     = ENV['CONSUMER_SECRET']
         config.access_token        = ENV['ACCESS_TOKEN']

@@ -7,11 +7,6 @@ module Yonobot
     def collection
       return @collection if defined?(@collection)
 
-      client = if uri
-        client = Mongo::Client.new(uri)
-      else
-        client = Mongo::Client.new('127.0.0.1', database: 'twitter')
-      end
       @collection = client[:markovchains]
     end
 
@@ -25,6 +20,17 @@ module Yonobot
 
     def uri
       ENV['MONGOLAB_URI']
+    end
+
+    def client
+      return @client if defined?(@client)
+
+      if uri
+        @client = Mongo::Client.new(uri)
+      else
+        @client = Mongo::Client.new('127.0.0.1', database: 'twitter')
+      end
+      @client
     end
   end
 end

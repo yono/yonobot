@@ -28,8 +28,12 @@ GEM
     natto (1.1.1)
       ffi (>= 1.9.0)
     naught (1.1.0)
+    power_assert (0.2.6)
     public_suffix (3.0.3)
+    rake (10.4.2)
     simple_oauth (0.3.1)
+    test-unit (3.1.5)
+      power_assert
     thor (0.20.0)
     thread_safe (0.3.6)
     twitter (6.2.0)
@@ -55,8 +59,13 @@ DEPENDENCIES
   dotenv
   mongo
   natto
+  rake
+  test-unit
   thor
   twitter
+
+RUBY VERSION
+   ruby 2.3.1p112
 
 BUNDLED WITH
    1.13.1
