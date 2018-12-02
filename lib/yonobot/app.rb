@@ -47,7 +47,7 @@ module Yonobot
     end
 
     def analyzer
-      @analyzer ||= Analyzer.new
+      @analyzer ||= MarkovChain::Analyzer.new
     end
   end
 end

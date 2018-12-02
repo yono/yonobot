@@ -39,7 +39,7 @@ module Yonobot::MarkovChain
 
       h.each do |key, value|
         doc = {prefix: key, suffix: value}
-        @collection.insert(doc)
+        collection.insert_one(doc)
       end
     end
 
@@ -82,7 +82,7 @@ module Yonobot::MarkovChain
     end
 
     def parser
-      @parser ||= Parser.new
+      @parser ||= Yonobot::Parser.new
     end
   end
 end

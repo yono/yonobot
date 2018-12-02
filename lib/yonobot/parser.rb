@@ -2,8 +2,8 @@ require 'natto'
 
 module Yonobot
   class Parser
-    def parse(text)
-      natto.parse(text)
+    def parse(text, &block)
+      natto.parse(text, &block)
     end
 
     private
