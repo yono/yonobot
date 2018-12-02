@@ -6,22 +6,14 @@ Tweet with markovchain algorism.
 
 ## Requirements
 
-* Ruby
-* MongoDB
-* MeCab
-
-### Mac
-
-```bash
-$ brew install mongodb mecab mecab-ipadic
-```
+* Docker
 
 ## Installation
 
 ```bash
 $ git clone git://github.com/yono/yonobot.git
 $ cd yonobot
-$ bundle install --path vendor/bundle
+$ docker-compose build
 ```
 
 ## Usage
@@ -29,7 +21,7 @@ $ bundle install --path vendor/bundle
 ### Show help
 
 ```bash
-$ bundle exec bin/yonobot
+$ docker-compose run web bundle exec bin/yonobot
 ```
 
 ### Analyze and store data from tweets.csv
@@ -37,7 +29,7 @@ $ bundle exec bin/yonobot
 Download tweets.csv from https://twitter.com and place it to project root directory.
 
 ```bash
-$ bundle exec bin/yonobot analysis
+$ docker-compose run web bundle exec bin/yonobot analysis
 ```
 
 ## LICENSE
