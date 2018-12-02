@@ -28,7 +28,7 @@ module Yonobot
       if uri
         @client = Mongo::Client.new(uri)
       else
-        @client = Mongo::Client.new('127.0.0.1', database: 'twitter')
+        @client = Mongo::Client.new(["mongo:27017"], database: 'twitter')
       end
       @client
     end
