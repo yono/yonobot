@@ -6,3 +6,9 @@ services:
     stdin_open: true
     volumes:
       - .:/opt/yonobot
+    depends_on:
+      - mongo
+  mongo:
+    image: "mongo:3.6-stretch"
+    ports:
+      - "27020:27017"
