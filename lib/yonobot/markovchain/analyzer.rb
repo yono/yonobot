@@ -37,10 +37,13 @@ module Yonobot::MarkovChain
         end
       end
 
-      h.each do |key, value|
-        doc = {prefix: key, suffix: value}
-        collection.insert_one(doc)
+      collection.drop
+      array = h.map do |key, value|
+        { insert_one:
+          { "document": { prefix: key, suffix: value } }
+        }
       end
+      collection.bulk_write array
     end
 
     private
