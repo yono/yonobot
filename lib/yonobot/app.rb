@@ -11,8 +11,8 @@ module Yonobot
 
     desc 'analysis', 'Analysis tweets.'
     def analysis
-      csv = 'tweets.csv'
-      analyzer.store_csv(csv)
+      json = 'tweet.js'
+      analyzer.store_tweets(json)
     end
 
     desc 'replies', 'Send replies'

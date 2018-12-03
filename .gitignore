@@ -1,5 +1,6 @@
 /.bundle/
 /vendor/bundle
 tweets.csv
+tweet.js
 /dic/*.dic
 .env

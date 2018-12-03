@@ -26,7 +26,16 @@ $ docker-compose run web bundle exec bin/yonobot
 
 ### Analyze and store data from tweets.csv
 
-Download tweets.csv from https://twitter.com and place it to project root directory.
+Download tweet.js from https://twitter.com and place it to project root directory.
+
+Please edit top row of tweet.js like below.
+
+```diff
+1c1
+< window.YTD.tweet.part0 = [ {
+---
+> [ {
+```
 
 ```bash
 $ docker-compose run web bundle exec bin/yonobot analysis

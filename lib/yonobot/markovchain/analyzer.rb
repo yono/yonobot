@@ -1,38 +1,39 @@
-require 'csv'
 require 'uri'
 require 'cgi'
+require 'json'
 
 module Yonobot::MarkovChain
   class Analyzer < Base
 
-    def store_csv(filename)
-      table = CSV.table('tweets.csv', headers: true, header_converters: :symbol)
-      count = 0
+    def store_tweets(filename)
       h = {}
-      table.each do |row|
-        text = row[:text]
-        next if text.is_a?(Fixnum)
+      count = 0
+      File.open('tweet.js') do |file|
+        table = JSON.load(file)
+        table.each do |row|
+          next if row["retweeted"]
+          text = row["full_text"]
+          valid = valid?(text)
+          count += 1 if valid
 
-        valid = valid?(text)
-        count += 1 if valid
+          puts "#{count}/#{table.size}"
+          puts "#{valid} #{text}"
+          if valid
+            text = normalize(text)
+            surfaces = [NONWORD, NONWORD]
+            parser.parse(text) do |node|
+              surfaces << node.surface
+            end
+            surfaces << NONWORD
 
-        puts "#{count}/#{table.size}"
-        puts "#{valid} #{text}"
-        if valid
-          text = normalize(text)
-          surfaces = [NONWORD, NONWORD]
-          parser.parse(text) do |node|
-            surfaces << node.surface
-          end
-          surfaces << NONWORD
+            # データ突っ込む
+            surfaces.each_cons(3).each do |pre_suf|
+              suffix = pre_suf.pop
+              prefix = pre_suf
 
-          # データ突っ込む
-          surfaces.each_cons(3).each do |pre_suf|
-            suffix = pre_suf.pop
-            prefix = pre_suf
-
-            h[prefix] ||= []
-            h[prefix] << suffix
+              h[prefix] ||= []
+              h[prefix] << suffix
+            end
           end
         end
       end
@@ -40,7 +41,7 @@ module Yonobot::MarkovChain
       collection.drop
       array = h.map do |key, value|
         { insert_one:
-          { "document": { prefix: key, suffix: value } }
+          { prefix: key, suffix: value }
         }
       end
       collection.bulk_write array
