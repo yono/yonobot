@@ -5,10 +5,15 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - .:/opt/yonobot
+      - .:/yonobot
     depends_on:
       - mongo
   mongo:
     image: "mongo:3.6-stretch"
     ports:
       - "27020:27017"
+    volumes:
+      - mongo:/data/db
+volumes:
+  mongo:
+    driver: local
