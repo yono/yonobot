@@ -19,7 +19,7 @@ module Yonobot
     end
 
     def uri
-      ENV['MONGOLAB_URI']
+      ENV['DB_URI']
     end
 
     def client
