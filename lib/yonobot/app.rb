@@ -6,8 +6,7 @@ module Yonobot
     def tweet
       return if sleeping?
 
-      puts sentence
-      #twitter.tweet(sentence)
+      twitter.tweet(sentence)
     end
 
     desc 'analysis', 'Analysis tweets.'
