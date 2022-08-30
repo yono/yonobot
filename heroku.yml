@@ -1,6 +1,5 @@
 setup:
   addons:
-    - plan: mongolab:sandbox
     - plan: scheduler:standard
 build:
   docker:

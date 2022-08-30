@@ -2,7 +2,6 @@ module Yonobot
   require 'yonobot/version'
   require 'yonobot/app'
   require 'yonobot/twitter'
-  require 'yonobot/mongodb'
   require 'yonobot/parser'
   require 'yonobot/markovchain/base'
   require 'yonobot/markovchain/analyzer'
