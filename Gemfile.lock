@@ -32,6 +32,7 @@ GEM
     public_suffix (3.0.3)
     rake (10.4.2)
     simple_oauth (0.3.1)
+    sqlite3 (1.4.4)
     test-unit (3.1.5)
       power_assert
     thor (0.20.0)
@@ -60,6 +61,7 @@ DEPENDENCIES
   mongo
   natto
   rake
+  sqlite3
   test-unit
   thor
   twitter
