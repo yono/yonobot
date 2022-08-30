@@ -1,20 +1,26 @@
+require 'sqlite3'
+
 module Yonobot::MarkovChain
   class Creator < Base
     def sentence
       words = []
-      prefix = START_SENTENCE
+      prefix_words = START_SENTENCE
+      db = SQLite3::Database.new("dic/markovchaings.db")
       loop do
-        nodes = collection.find(prefix: prefix)
-        node = nodes.first
-        break unless node
-        suffix = node["suffix"].sample
+        prefix = db.execute("SELECT id FROM prefix_words WHERE word1 = ? AND word2 = ?", *prefix_words)
+        id = prefix[0][0]
+
+        break unless id
+
+        suffix = db.execute("SELECT word FROM suffix_words WHERE prefix_id = ? ORDER BY RANDOM() LIMIT 1", id)
+        suffix_word = suffix[0][0]
 
         # 文末まで来たら終わり
-        break if suffix == END_SENTENCE
+        break if suffix_word == END_SENTENCE
 
-        words << suffix
+        words << suffix_word
 
-        prefix = [prefix[1], suffix]
+        prefix_words = [prefix_words[1], suffix_word]
       end
       words.join("")
     end
