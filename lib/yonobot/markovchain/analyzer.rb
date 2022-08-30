@@ -38,6 +38,7 @@ module Yonobot::MarkovChain
         end
       end
 
+      # TODO: sqlite3 向けに作り直す
       collection.drop
       array = h.map do |key, value|
         { insert_one:

@@ -1,6 +1,8 @@
 require 'sqlite3'
 require 'mongo'
 
+# 実行するなら mongo gem が必須
+
 create_sql = <<SQL
 CREATE TABLE prefix_words (
   id integer PRIMARY KEY AUTOINCREMENT,

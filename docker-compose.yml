@@ -6,14 +6,3 @@ services:
     stdin_open: true
     volumes:
       - .:/yonobot
-    depends_on:
-      - mongo
-  mongo:
-    image: "mongo:3.6-stretch"
-    ports:
-      - "27020:27017"
-    volumes:
-      - mongo:/data/db
-volumes:
-  mongo:
-    driver: local
